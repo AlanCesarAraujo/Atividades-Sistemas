@@ -1,42 +1,26 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Gerenciador de Tarefas</title>
-	<meta charset="utf-8">
-</head>
-<body>
-	<h1>Gerenciador de Tarefas</h1>
-
-	<form>
-		<fieldset>
-			<legend>Nova Tarefa</legend>
-			<label>
-				Tarefa:
-				<input type="text" name="nome" />
-			</label>
-			<input type="submit" value="Cadastrar" />
-		</fieldset>
-	</form>
-
-	<?php
-		$lista_tarefas = array();
-
-		if(isset($_GET['nome'])){
-			$lista_tarefas[] = $_GET['nome'];
+<?php
+	session_start();
+	if (isset($_GET['nome']) && $_GET['nome'] != '') {
+		$tarefa = array();
+		$tarefa['nome'] = $_GET['nome'];
+		if (isset($_GET['descricao'])) {
+			$tarefa['descricao'] = $_GET['descricao'];
+		} else {
+		$tarefa['descricao'] = '';
+		}	
+		if (isset($_GET['prazo'])) {
+			$tarefa['prazo'] = $_GET['prazo'];
+		} else {
+			$tarefa['prazo'] = '';
 		}
-	?>
+		$tarefa['prioridade'] = $_GET['prioridade'];
+		if (isset($_GET['concluida'])) {
+			$tarefa['concluida'] = $_GET['concluida'];
+		} else {
+			$tarefa['concluida'] = '';
+		}
+		$_SESSION['lista_tarefas'][] = $tarefa;
+	}
+?>
 
-	<TABLE>
-		<tr>
-			<th>Tarefas</th>
-		</tr>
-
-		<?php foreach ($lista_tarefas as $tarefa) : ?>
-			<tr>
-				<td><?php echo $tarefa; ?></td>
-			</tr>
-		<?php endforeach; ?>
-	</TABLE>
 	
-</body>
-</html>
